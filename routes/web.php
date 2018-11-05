@@ -1,5 +1,5 @@
 <?php
-
+// command =php artisan = show everything and add topic --help for details
 /*
 |--------------------------------------------------------------------------
 | Web Routes
