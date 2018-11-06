@@ -1,7 +1,9 @@
 <?php
 
 namespace App;
-
+use App\Category;
+use App\Seller;
+use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -17,4 +19,15 @@ class Product extends Model
         return $this->status == Product::AVAILABLE_PRODUCT; //return true
     }
 
+    public function categories(){
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function seller(){
+        return $this->belongsToMany(Seller::class);
+    }
+
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
+    } 
 }
