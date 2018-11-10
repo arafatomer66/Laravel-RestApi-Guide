@@ -5,6 +5,7 @@ use App\Transaction ;
 use App\Category ;
 
 use Illuminate\Database\Facades\DB ;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,18 +18,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //WHEN trucating rereign keys should be zero
-        DB::statement(' SET FOREIGN_KEY_CHECKS = 0 ') ;
+        
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         User::trancate();
         Category::trancate();
         Transaction::trancate();
         Product::trancate();
-        DB::table('category_product')->trancate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        //DB::table('category_product')->trancate();
 
         $usersQuantity = 200 ;
         $categoriesQuantity = 30 ;
         $productsQuantity = 1000 ;
         $transactionsQuantity = 1000 ;
+
+      
+
 
 
         factory(User::class , $usersQuantity)->create();
