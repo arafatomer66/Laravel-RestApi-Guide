@@ -2,6 +2,10 @@
 
 use Faker\Generator as Faker;
 use App\User ;
+use App\Product ;
+use App\Category ;
+use App\Transaction ;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +29,41 @@ $factory->define(App\User::class, function (Faker $faker) {
         'admin' => $verified = $faker->randomElement([User::ADMIN_USER,User::REGULAR_USER]),
         'verification_token' =>$verified == User::VERIFIED_USER? null : User::generateVerificationcode(),
 
+    ];
+});
 
+
+$factory->define(App\Category::class, function (Faker $faker) {
+    return [
+        'name' => $faker->word,
+        'description' => $faker->paragraph(1),
+        
+     //name will be a word and des will e a paragraph
+    ];
+});
+
+
+$factory->define(App\Product::class, function (Faker $faker) {
+    return [
+        'name' => $faker->word,
+        'description' => $faker->paragraph(1),
+        'quantity' =>$faker->numberBetween(1,10),
+        'status' =>$faker->randomElement([Product::AVAILAVLE_PRODUCT,Product::UNAVAILAVLE_PRODUCT]),
+        'image' =>$faker->randomElement('1.jpg','2.jpg','3.jpg'),
+        'seller_id' => User::all()->random()->id,
+     //name will be a word and des will e a paragraph
+    ];
+});
+
+
+$factory->define(App\Transaction::class, function (Faker $faker) {
+
+    $seller =  Seller::has('products')->get()->random();
+    $buyer = User::all()->except($seller->id)->random() ;
+    return [
+        'quantity' => $faker->numberBetween(1,3),
+        'buyer_id' => $buyer->id ,
+        'seller_id' => $seller->products->random()->id
+        //name will be a word and des will e a paragraph
     ];
 });
