@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->integer('seller_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('seller_id')->referance('id')->on('users');//foren key
+            $table->foreign('seller_id')->references('id')->on('users');//foren key
             //users is table name
         });
     }

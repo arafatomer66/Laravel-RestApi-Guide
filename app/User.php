@@ -13,6 +13,8 @@ class User extends Authenticatable
 
     const ADMIN_USER = 'true' ;
     const REGULAR_USER = 'false';
+
+    protected $table =  'users' ;
     //not a good idea to keep values in boolean or int , should be string
 
     /**

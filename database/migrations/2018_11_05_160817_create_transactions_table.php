@@ -1,5 +1,9 @@
 <?php
 
+use App\User ;
+use App\Product ;
+use App\Transaction ;
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,8 +23,8 @@ class CreateTransactionsTable extends Migration
             $table->integer('buyer_id')->unsigned();
             $table->integer('product_id')->unsigned();
 
-            $table->foreign('buyer_id')->referance('id')->on('users');
-            $table->foreign('product_id')->referance('id')->on('products');
+            $table->foreign('buyer_id')->references('id')->on('users');
+            $table->foreign('product_id')->references('id')->on('products');
 
             $table->timestamps();
         });
