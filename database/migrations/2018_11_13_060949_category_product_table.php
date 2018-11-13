@@ -14,7 +14,7 @@ class CategoryProductTable extends Migration
     public function up()
     {
         Schema::create('category_product', function (Blueprint $table) {
-            //php artisan make:migration category_product_table --create=category_product
+            //php artisan make:migration categories_product_table --create=categories_product
 
             $table-> integer('category_id')->unsigned();
             $table-> integer('product_id')->unsigned();

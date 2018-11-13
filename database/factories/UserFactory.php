@@ -5,6 +5,7 @@ use App\User ;
 use App\Product ;
 use App\Category ;
 use App\Transaction ;
+use App\Seller ;
 
 
 /*
@@ -48,8 +49,8 @@ $factory->define(App\Product::class, function (Faker $faker) {
         'name' => $faker->word,
         'description' => $faker->paragraph(1),
         'quantity' =>$faker->numberBetween(1,10),
-        'status' =>$faker->randomElement([Product::AVAILAVLE_PRODUCT,Product::UNAVAILAVLE_PRODUCT]),
-        'image' =>$faker->randomElement('1.jpg','2.jpg','3.jpg'),
+        'status' =>$faker->randomElement([Product::AVAILABLE_PRODUCT,Product::UNAVAILABLE_PRODUCT]),
+        'image' =>$faker->randomElement(['1.jpg','2.jpg','3.jpg']),
         'seller_id' => User::all()->random()->id,
      //name will be a word and des will e a paragraph
     ];
@@ -63,7 +64,7 @@ $factory->define(App\Transaction::class, function (Faker $faker) {
     return [
         'quantity' => $faker->numberBetween(1,3),
         'buyer_id' => $buyer->id ,
-        'seller_id' => $seller->products->random()->id
+        'product_id' => $seller->products->random()->id,
         //name will be a word and des will e a paragraph
     ];
 });

@@ -19,14 +19,14 @@ class DatabaseSeeder extends Seeder
     {
         //WHEN trucating rereign keys should be zero
         
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+          
+        // User::trancate();
+        // Category::trancate();
+        // Transaction::trancate();
+        // Product::trancate();
 
-        User::trancate();
-        Category::trancate();
-        Transaction::trancate();
-        Product::trancate();
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         //DB::table('category_product')->trancate();
 
         $usersQuantity = 200 ;
@@ -34,21 +34,14 @@ class DatabaseSeeder extends Seeder
         $productsQuantity = 1000 ;
         $transactionsQuantity = 1000 ;
 
-      
-
-
-
         factory(User::class , $usersQuantity)->create();
         factory(Category::class , $categoriesQuantity)->create();
-
         factory(Product::class , $productsQuantity)->create()->each(
             function($product){
-                $categories = Category:: all()->random(mt_rand(1,5))->pluck('id') ;
-                $product = categories()->attach($categories);
+                $categories = Category::all()->random(mt_rand(1,5))->pluck('id');
+                $product->categories()->attach($categories);
             }
         );
-
-        factory(Transaction::class , $transactionsQuantity)->create();
-        
+        factory(Transaction::class , $transactionsQuantity)->create();   
     }
 }
