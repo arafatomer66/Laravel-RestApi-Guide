@@ -42,6 +42,20 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed'
         ] ;
+
+        $this->validate($request ,$rule );
+
+        $data = $request->all();
+        $data['password']= bcrypt($request->password);
+        $data['verified'] = User::UNVERIFIED_USER;
+        $data['verification_token'] =User::generateVerificationCode();
+        $data['admin']=User::REGULAR_USER;
+
+        $users = User::create($data);
+    //verifed and admin option is available
+        return response()->json(['data' => $users],201);
+
+
     }
 
     /**

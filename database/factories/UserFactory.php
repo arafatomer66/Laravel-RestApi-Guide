@@ -38,7 +38,6 @@ $factory->define(App\Category::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
         'description' => $faker->paragraph(1),
-        
      //name will be a word and des will e a paragraph
     ];
 });
