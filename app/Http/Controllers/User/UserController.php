@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\User ;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -122,6 +122,7 @@ class UserController extends Controller
         // if($users->isDirty()){
         //     return response()->json(['error'=>'Assign different value !','code'=>422],422);
         // }
+        
 
         $users->save();
         return response()->json(['data' => $users],200);
