@@ -90,7 +90,42 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $users = User::findOrFail($id);
+        $rule = [
+            'email' => 'email|unique:users,email,' . $users->id,
+            'password' => 'min:6|confirmed',
+            'admin' => 'in:' . User::ADMIN_USER . ',' . User::REGULAR_USER ,
+        ] ;
+
+        if($request->has('name')){
+            $users->name = $request->name ;
+        }
+
+        if($request->has('email') && $users->email != $request->email ){
+            $users->verfied = User::UNVERIFIED_USER ;
+            $users->verification_token = User::generateVerificationCode();
+            $users->email = $request->email ;
+        }
+
+        if($request->has('passowrd'))
+        {
+            $users->password = bycrypt($request->password) ;
+        }
+
+        if($request->has('admin')){
+            if(!$users->isVerified()){
+               return response()->json(['error'=>'Only verified users can log in ! ','code'=>409],409);
+            }
+            $users->admin = $request->admin ;
+        }
+        
+        // if($users->isDirty()){
+        //     return response()->json(['error'=>'Assign different value !','code'=>422],422);
+        // }
+
+        $users->save();
+        return response()->json(['data' => $users],200);
+
     }
 
     /**
@@ -101,6 +136,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $users = User::findOrFail($id);
+
+        $users->delete();
+        return response()->json(['data' => $users],200);
     }
 }
