@@ -115,13 +115,15 @@ class UserController extends ApiController
 
         if($request->has('admin')){
             if(!$users->isVerified()){
-               return response()->json(['error'=>'Only verified users can log in ! ','code'=>409],409);
+            //    return response()->json(['error'=>'Only verified users can log in ! ','code'=>409],409);
+            return $this->errorResponse('Only verified users can log in ! ',409);
             }
             $users->admin = $request->admin ;
         }
 
         // if($users->isDirty()){
-        //     return response()->json(['error'=>'Assign different value !','code'=>422],422);
+        //     //return response()->json(['error'=>'Assign different value !','code'=>422],422);
+           //return $this->errorResponse('Assign different value !',422);
         // }
 
 
