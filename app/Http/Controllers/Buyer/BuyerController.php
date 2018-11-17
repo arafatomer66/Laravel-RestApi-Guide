@@ -9,23 +9,14 @@ use App\Buyer ;
 
 class BuyerController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $buyer =  Buyer::has('transactions')->get();
+        $buyers =  Buyer::has('transactions')->get();
 
-        return response()->json(['data'=> $buyer],200);
+        return $this->showAll($buyers);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
@@ -52,7 +43,7 @@ class BuyerController extends ApiController
     {
         $buyer =  Buyer::has('transactions')->findOrFail($id);
 
-        return response()->json(['data'=> $buyer],200);
+        return $this->showOne($buyer);
     }
 
     /**

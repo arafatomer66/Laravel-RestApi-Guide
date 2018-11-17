@@ -16,7 +16,7 @@ class UserController extends ApiController
     public function index()
     {
         $users = User::all();
-        return response()->json(['data' => $users],200);
+        return $this->showAll($users);
     }
 
     /**
@@ -53,10 +53,11 @@ class UserController extends ApiController
 
         $users = User::create($data);
     //verifed and admin option is available
-        return response()->json(['data' => $users],201);
+       return $this->showOne($users,201);
 
 
     }
+
 
     /**
      * Display the specified resource.
@@ -67,7 +68,7 @@ class UserController extends ApiController
     public function show($id)
     {
         $users = User::findOrFail($id);
-        return response()->json(['data' => $users],200);
+        return $this->showOne($users);
     }
 
     /**
@@ -118,14 +119,14 @@ class UserController extends ApiController
             }
             $users->admin = $request->admin ;
         }
-        
+
         // if($users->isDirty()){
         //     return response()->json(['error'=>'Assign different value !','code'=>422],422);
         // }
-        
+
 
         $users->save();
-        return response()->json(['data' => $users],200);
+        return $this->showOne($users);
 
     }
 
@@ -139,6 +140,6 @@ class UserController extends ApiController
     {
         $users = User::findOrFail($id);
         $users->delete();
-        return response()->json(['data' => $users],200);
+        return $this->showOne($users);
     }
 }

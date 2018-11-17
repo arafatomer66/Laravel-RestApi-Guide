@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model ;
       private function successResponse($data , $code){
          return response()->json($data,$code);
       }
-      private function errorResponse($message , $code){
+      protected function errorResponse($message , $code){
         return response()->json(['error'=>$message,'code'=>$code],$code);
      }
-     private function showAll( Collection $collection , $code=200){
-        return response()->json(['data'=>$collection,$code]);
+     protected function showAll( Collection $collection , $code=200){
+        return $this->successResponse(['data'=>$collection],$code);
      }
-     private function successOne(Model $model  , $code=200){
-        return response()->json(['data'=>$model],$code);
+     protected function showOne(Model $model  , $code=200){
+        return $this->errorResponse(['data'=>$model],$code);
      }
   }
 ?>

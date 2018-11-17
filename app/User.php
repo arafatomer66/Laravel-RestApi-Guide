@@ -38,22 +38,22 @@ class User extends Authenticatable
  public function isVerified(){
      return $this->verified == User::VERIFIED_USER;
  }
- 
+
  public function isAdmin(){
     return $this->admin == User::ADMIN_USER;
 }
 
-public function setNameAttribute($name){
-    $this->attributes['name'] = strtolower($name) ;
-}
+// public function setNameAttribute($name){
+//     $this->attributes['name'] = strtolower($name) ;
+// }
 
-public function getNameAttribute(){
-    return ucwords($name) ;
-}
+// public function getNameAttribute(){
+//     return ucwords($name) ;
+// }
 
-public function setEmailAttribute($email){
-    $this->attributes['email'] = strtolower($email) ;
-}
+// public function setEmailAttribute($email){
+//     $this->attributes['email'] = strtolower($email) ;
+// }
 
 //generating verification code manually
 public static function generateVerificationCode(){
