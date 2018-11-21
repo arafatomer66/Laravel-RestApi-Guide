@@ -68,6 +68,7 @@ class UserController extends ApiController
     public function show($id)
     {
         $users = User::findOrFail($id);
+        // dnt need this when passing the instance of the model
         return $this->showOne($users);
     }
 
@@ -138,9 +139,9 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $users)
     {
-        $users = User::findOrFail($id);
+
         $users->delete();
         return $this->showOne($users);
     }

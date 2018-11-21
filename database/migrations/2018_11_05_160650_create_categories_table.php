@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('description',1000);
             //we can specify the max char lenth here with passing the max value as parameter
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

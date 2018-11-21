@@ -239,13 +239,14 @@ class Handler implements ExceptionHandlerContract
                     : $this->invalid($request, $e);
     }
 
-    /**
-     * Convert a validation exception into a response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Validation\ValidationException  $exception
-     * @return \Illuminate\Http\Response
-     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json([
+            'message' => $exception->getMessage(),
+            'errors' => $exception->errors(),
+        ], $exception->status);
+    }
+
     protected function invalid($request, ValidationException $exception)
     {
         return redirect($exception->redirectTo ?? url()->previous())
@@ -254,19 +255,22 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
+     * Convert a validation exception into a response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @return \Illuminate\Http\Response
+     */
+
+
+    /**
      * Convert a validation exception into a JSON response.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Validation\ValidationException  $exception
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function invalidJson($request, ValidationException $exception)
-    {
-        return response()->json([
-            'message' => $exception->getMessage(),
-            'errors' => $exception->errors(),
-        ], $exception->status);
-    }
+
 
     /**
      * Prepare a response for the given exception.
