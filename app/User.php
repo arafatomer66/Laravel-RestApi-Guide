@@ -4,16 +4,17 @@
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+
+    use Notifiable ,SoftDeletes;
     const VERIFIED_USER = '1';
     const UNVERIFIED_USER = '0';
-
     const ADMIN_USER = 'true' ;
     const REGULAR_USER = 'false';
-
+    protected $dates =['deleted_at'] ;
     protected $table =  'users' ;
     //not a good idea to keep values in boolean or int , should be string
 
