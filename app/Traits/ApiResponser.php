@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model ;
         return $this->successResponse(['data'=>$collection],$code);
      }
      protected function showOne(Model $model  , $code=200){
-        return $this->errorResponse(['data'=>$model],$code);
+        return $this->successResponse(['data'=>$model],$code);
      }
   }
 ?>

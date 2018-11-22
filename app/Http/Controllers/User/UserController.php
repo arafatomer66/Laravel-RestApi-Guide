@@ -19,6 +19,12 @@ class UserController extends ApiController
         return $this->showAll($users);
     }
 
+    // public function index(User $users)
+    // {
+    //     // $users = User::all();
+    //     return $this->showAll($users);
+    // }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -65,10 +71,10 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $users = User::findOrFail($id);
-        return $this->showOne($users);
+        // $users = User::findOrFail($id);
+        return $this->showOne($user);
     }
 
     /**
@@ -145,3 +151,4 @@ class UserController extends ApiController
         return $this->showOne($users);
     }
 }
+

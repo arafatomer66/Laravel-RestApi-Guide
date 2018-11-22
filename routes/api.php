@@ -15,3 +15,5 @@ Route::resource('transactions','Transaction\TransactionController', ['only' => [
 
 Route::resource('users','User\UserController', ['except' => ['create', 'edit']]);
 
+Route::resource('test','Test\TestrController');
+
