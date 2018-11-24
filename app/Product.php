@@ -23,7 +23,7 @@ class Product extends Model
         return $this->status == Product::AVAILABLE_PRODUCT; //return true
     }
 
-    public function categories(){
+      public function categories(){
         return $this->belongsToMany(Category::class);
     }
 
