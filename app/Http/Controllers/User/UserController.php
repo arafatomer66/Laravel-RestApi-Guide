@@ -24,7 +24,7 @@ class UserController extends ApiController
     //     // $users = User::all();
     //     return $this->showAll($users);
     // }
-
+ 
     /**
      * Show the form for creating a new resource.
      *

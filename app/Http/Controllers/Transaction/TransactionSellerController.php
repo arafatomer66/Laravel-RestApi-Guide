@@ -1,23 +1,23 @@
 <?php
-//categories of the product , part of the trasaction
-//php artisan make:controller Transaction\TransactionCategoryController -r -m Transaction
+
 namespace App\Http\Controllers\Transaction;
 
+use App\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
-use App\Transaction;
 
-class TransactionController extends ApiController
+class TransactionSellerController extends ApiController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Transaction $transaction)
     {
-        $transaction = Transaction::all();
-        return $this->showAll($transaction);
+        $seller = $transaction->product->seller ;
+
+        return $this->showOne($seller);
     }
 
     /**
@@ -44,21 +44,21 @@ class TransactionController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
     public function show(Transaction $transaction)
     {
-        return $this->showOne($transaction);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Transaction $transaction)
     {
         //
     }
@@ -67,10 +67,10 @@ class TransactionController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Transaction $transaction)
     {
         //
     }
@@ -78,10 +78,10 @@ class TransactionController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Transaction $transaction)
     {
         //
     }
