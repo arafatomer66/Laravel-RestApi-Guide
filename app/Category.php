@@ -13,6 +13,10 @@ class Category extends Model
        'name' ,
        'description',
     ];
+
+    protected $hidden = [
+        'pivot'
+    ];
     // we can assign those fields massively
 
     public function products(){

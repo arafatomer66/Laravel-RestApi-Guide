@@ -17,6 +17,10 @@ class Product extends Model
     protected $fillable = [
         'name','description','quantity','status','image','seller_id',
     ];
+
+    protected $hidden = [
+        'pivot'
+    ];
     // we should declar with const for the values when they hve fix values
 
     public function isAvailable(){
