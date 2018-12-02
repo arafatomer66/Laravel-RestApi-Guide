@@ -80,9 +80,12 @@ class SellerProductController extends ApiController
     }
 
 
-    public function destroy(Seller $seller)
+    public function destroy(Seller $seller , Product $product)
     {
+         $this->checkSeller($seller , $product);
 
+         $product->delete();
+         return $this->showOne($product);
     }
 
     public function checkSeller(Seller $seller , Product $product){
