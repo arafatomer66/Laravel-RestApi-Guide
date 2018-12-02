@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\Stub\Exception;
 
 class SellerProductController extends ApiController
 {
-   
+
     public function index(Seller $seller)
     {
         $product = $seller->products;
@@ -26,7 +26,7 @@ class SellerProductController extends ApiController
             'quantity' => 'required|integer|min:1',
             'image' => 'required|image'
         ];
-        
+
         $this->validate($request , $rules);
 
         $data = $request->all();
@@ -46,25 +46,48 @@ class SellerProductController extends ApiController
 
     public function update(Request $request, Seller $seller , Product $product)
     {
-        $rules = [ 
-            'quantity'=> 'required' ,
-            'status'  => 'required' ,
+        $rules = [
+            'quantity'=> 'integer|min:1' ,
+            'status'  => 'in:' . Product::AVAILABLE_PRODUCT . ',' . Product::UNAVAILABLE_PRODUCT,
             'image'   => 'image'
         ] ;
 
         $this->validate($request , $rules);
         $this->checkSeller( $seller , $product);
 
+
+        $product->fill($request->only([
+            'name','description', 'quantity',
+        ]));
+
+        if($request->has('status')){
+            $product->status =$request->status ;
+
+            if($product->isAvailable() && $product->categories()->count() == 0 ){
+                return $this->errorResponse('Category is invalid' , 409);
+            }
+        }
+
+
+        // if(!$product->isClean()){
+        //     return $this->errorResponse('Category is invalid' , 422);
+        // }
+
+        $product->save();
+
+        return $this->showOne($product);
+
     }
+
 
     public function destroy(Seller $seller)
     {
-        
+
     }
 
     public function checkSeller(Seller $seller , Product $product){
         if($seller->id != $product->seller_id ){
-           throw new  Exception('Error');
+           return $this->errorResponse('error',422);
         }
     }
 }
