@@ -24,7 +24,7 @@ class UserController extends ApiController
     //     // $users = User::all();
     //     return $this->showAll($users);
     // }
- 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -103,22 +103,18 @@ class UserController extends ApiController
             'password' => 'min:6|confirmed',
             'admin' => 'in:' . User::ADMIN_USER . ',' . User::REGULAR_USER ,
         ] ;
-
         if($request->has('name')){
             $users->name = $request->name ;
         }
-
         if($request->has('email') && $users->email != $request->email ){
             $users->verfied = User::UNVERIFIED_USER ;
             $users->verification_token = User::generateVerificationCode();
             $users->email = $request->email ;
         }
-
         if($request->has('passowrd'))
         {
             $users->password = bycrypt($request->password) ;
         }
-
         if($request->has('admin')){
             if(!$users->isVerified()){
             //    return response()->json(['error'=>'Only verified users can log in ! ','code'=>409],409);
@@ -126,13 +122,10 @@ class UserController extends ApiController
             }
             $users->admin = $request->admin ;
         }
-
         // if($users->isDirty()){
         //     //return response()->json(['error'=>'Assign different value !','code'=>422],422);
            //return $this->errorResponse('Assign different value !',422);
         // }
-
-
         $users->save();
         return $this->showOne($users);
 

@@ -93,11 +93,6 @@ class ProductCategoryController extends ApiController
         }
 
         $product->categories()->detach($category->id);
-
         return $this->showAll($product->categories);
-
-
-
-
     }
 }

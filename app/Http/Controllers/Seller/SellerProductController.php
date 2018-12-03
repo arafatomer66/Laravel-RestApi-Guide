@@ -11,7 +11,6 @@ use PHPUnit\Framework\MockObject\Stub\Exception;
 
 class SellerProductController extends ApiController
 {
-
     public function index(Seller $seller)
     {
         $product = $seller->products;
@@ -26,7 +25,6 @@ class SellerProductController extends ApiController
             'quantity' => 'required|integer|min:1',
             'image' => 'required|image'
         ];
-
         $this->validate($request , $rules);
 
         $data = $request->all();
@@ -40,10 +38,7 @@ class SellerProductController extends ApiController
         $product = Product::create($data);
 
         return $this->showOne($product);
-
-
     }
-
     public function update(Request $request, Seller $seller , Product $product)
     {
         $rules = [
@@ -68,18 +63,11 @@ class SellerProductController extends ApiController
             }
         }
 
-
-        // if(!$product->isClean()){
-        //     return $this->errorResponse('Category is invalid' , 422);
-        // }
-
         $product->save();
 
         return $this->showOne($product);
 
     }
-
-
     public function destroy(Seller $seller , Product $product)
     {
          $this->checkSeller($seller , $product);
