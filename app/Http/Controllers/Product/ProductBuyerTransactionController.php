@@ -45,9 +45,7 @@ class ProductBuyerTransactionController extends ApiController
 
         return DB::transaction(function () use ( $request ,$product , $buyer )  {
             $product->quantity = $product->quantity - $request->quantity ;
-
             $product->save() ;
-
             $transaction = Transaction::create(
                 [
                     'quantity' => $request->quantity,
@@ -55,10 +53,7 @@ class ProductBuyerTransactionController extends ApiController
                     'product_id' => $product->id
                 ]
                 );
-
                 return $this->showOne($transaction ,201);
-
         });
-
     }
 }
