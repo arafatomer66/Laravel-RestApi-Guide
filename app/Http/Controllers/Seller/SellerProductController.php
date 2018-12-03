@@ -8,6 +8,7 @@ use App\Product ;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use PHPUnit\Framework\MockObject\Stub\Exception;
+use Illuminate\Support\Facades\Storage;
 
 class SellerProductController extends ApiController
 {
@@ -63,6 +64,12 @@ class SellerProductController extends ApiController
             }
         }
 
+        if($request->hasFile('image')){
+            Storage::delete($product->image);
+
+            $product->image = $request->image->store('');
+        }
+
         $product->save();
 
         return $this->showOne($product);
@@ -70,10 +77,12 @@ class SellerProductController extends ApiController
     }
     public function destroy(Seller $seller , Product $product)
     {
-         $this->checkSeller($seller , $product);
 
+         $this->checkSeller($seller , $product);
+         Storage::delete($product->image);
          $product->delete();
          return $this->showOne($product);
+
     }
 
     public function checkSeller(Seller $seller , Product $product){
