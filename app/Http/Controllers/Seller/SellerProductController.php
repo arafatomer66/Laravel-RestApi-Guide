@@ -63,7 +63,6 @@ class SellerProductController extends ApiController
                 return $this->errorResponse('Category is invalid' , 409);
             }
         }
-
         if($request->hasFile('image')){
             Storage::delete($product->image);
 
