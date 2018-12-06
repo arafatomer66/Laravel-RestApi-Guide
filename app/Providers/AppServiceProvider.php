@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -8,7 +7,6 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserCreated;
 class AppServiceProvider extends ServiceProvider
-
 {
     public function boot()
             {
