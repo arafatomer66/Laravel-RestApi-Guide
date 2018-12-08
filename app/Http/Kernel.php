@@ -13,6 +13,8 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
+
+     //those are global , execute to every request
     protected $middleware = [
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
