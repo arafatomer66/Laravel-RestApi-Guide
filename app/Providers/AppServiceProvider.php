@@ -6,6 +6,7 @@ use App\Product ;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserCreated;
+use App\Mail\UserMailChanged;
 class AppServiceProvider extends ServiceProvider
 {
     public function boot()
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
                 });
                 User::updated(function($user){
                     if($user->isDirty('email')){
-                        Mail::to($user)->send(new UserCreated($user));
+                        Mail::to($user)->send(new UserMailChanged($user));
                     }
                 });
                 Product::updated(function($product){
