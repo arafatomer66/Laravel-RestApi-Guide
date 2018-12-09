@@ -5,6 +5,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Transformers\UserTransformer;
 
 class User extends Authenticatable
 {
@@ -16,6 +17,7 @@ class User extends Authenticatable
     const REGULAR_USER = 'false';
     protected $dates =['deleted_at'] ;
     protected $table =  'users' ;
+    public $transformer = UserTransformer::class ;
     //not a good idea to keep values in boolean or int , should be string
 
     /**
