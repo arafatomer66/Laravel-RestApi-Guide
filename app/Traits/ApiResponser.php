@@ -2,6 +2,7 @@
 namespace App\Traits ;
 use Illuminate\Support\Collection ;
 use Illuminate\Database\Eloquent\Model ;
+use Spatie\Fractal\Fractal;
 
   trait ApiResponser {
       private function successResponse($data , $code){
@@ -17,10 +18,15 @@ use Illuminate\Database\Eloquent\Model ;
         }
 
         $transformer = $collection->first()->transformer ;
-        return $this->successResponse(['data'=>$collection],$code);
+        $collection = $this->transformData( $collection ,$transformer );
+        return $this->successResponse($collection,$code);
      }
-     protected function showOne(Model $model  , $code=200){
-        return $this->successResponse(['data'=>$model],$code);
+
+     protected function showOne(Model $instance  , $code=200){
+        $transformer = $instance->transformer ;
+
+        $instance = $this->transformData($instance ,$transformer);
+        return $this->successResponse($instance,$code);
      }
      protected function showMessage($message  , $code=200){
         return $this->successResponse(['data'=>$message],$code);
