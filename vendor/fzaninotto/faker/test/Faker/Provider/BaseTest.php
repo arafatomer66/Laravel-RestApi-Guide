@@ -567,6 +567,3 @@ class BaseTest extends TestCase
     }
 }
 
-class Collection extends \ArrayObject
-{
-}
