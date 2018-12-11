@@ -4,6 +4,8 @@ use Illuminate\Support\Collection ;
 use Illuminate\Database\Eloquent\Model ;
 use Spatie\Fractal\Fractal;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
   trait ApiResponser {
 
       private function successResponse($data , $code){
@@ -23,6 +25,7 @@ use Spatie\Fractal\Fractal;
         $transformer = $collection->first()->transformer ;
         $collection = $this->filterData($collection , $transformer);
         $collection = $this->sortData($collection , $transformer);
+        $collection = $this->paginate($collection);
         $collection = $this->transformData( $collection ,$transformer );
         return $this->successResponse($collection,$code);
      }
@@ -61,7 +64,9 @@ use Spatie\Fractal\Fractal;
         return $collection ;
   }
 
-
+     protected function paginate(Collection $collection){
+          $page = LengthAwarePaginator::resolveCurrentPage();
+     }
 
 
      protected function transformData($data  , $transformer){
