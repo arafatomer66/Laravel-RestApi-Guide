@@ -8,6 +8,7 @@ use Spatie\Fractal\Fractal;
 
 use Illuminate\Pagination\LengthAwarePaginator ;
 use Illuminate\Pagination\AbstractPaginator ;
+use Illuminate\Support\Facades\Cache;
 
   trait ApiResponser {
 
@@ -30,6 +31,7 @@ use Illuminate\Pagination\AbstractPaginator ;
         $collection = $this->sortData($collection , $transformer);
         $collection = $this->paginate($collection);
         $collection = $this->transformData( $collection ,$transformer );
+        $collection = $this->cacheResponse( $collection );
         return $this->successResponse($collection,$code);
      }
 
@@ -80,6 +82,17 @@ use Illuminate\Pagination\AbstractPaginator ;
           $paginated->appends(request()->all());
 
           return  $paginated ;
+     }
+
+
+     protected function cacheResponse(Collection $collection){
+        $url = request()->url();
+
+        $minutes = 30/60 ;
+
+        return Cache::remember($url, $minutes, function () use($data) {
+           return $data ;
+        });
      }
 
 
