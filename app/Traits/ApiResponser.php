@@ -1,104 +1,114 @@
 <?php
-namespace App\Traits ;
-use Illuminate\Support\Collection ;
-use Illuminate\Database\Eloquent\Model ;
+namespace App\Traits;
+
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Fractal\Fractal;
 
 
 
-use Illuminate\Pagination\LengthAwarePaginator ;
-use Illuminate\Pagination\AbstractPaginator ;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Support\Facades\Cache;
 
-  trait ApiResponser {
+trait ApiResponser
+{
 
-      private function successResponse($data , $code){
-         return response()->json($data,$code);
-      }
+    private function successResponse($data, $code)
+    {
+        return response()->json($data, $code);
+    }
 
-      protected function errorResponse($message , $code){
-        return response()->json(['error'=>$message,'code'=>$code],$code);
-     }
+    protected function errorResponse($message, $code)
+    {
+        return response()->json(['error' => $message, 'code' => $code], $code);
+    }
 
-     protected function showAll( Collection $collection , $code=200 ){
+    protected function showAll(Collection $collection, $code = 200)
+    {
 
-        if($collection->isEmpty()){
-            return $this->successResponse(['data'=>$collection],$code);
+        if ($collection->isEmpty()) {
+            return $this->successResponse(['data' => $collection], $code);
         }
 
-        $transformer = $collection->first()->transformer ;
-        $collection = $this->filterData($collection , $transformer);
-        $collection = $this->sortData($collection , $transformer);
+        $transformer = $collection->first()->transformer;
+        $collection = $this->filterData($collection, $transformer);
+        $collection = $this->sortData($collection, $transformer);
         $collection = $this->paginate($collection);
-        $collection = $this->transformData( $collection ,$transformer );
-        $collection = $this->cacheResponse( $collection );
-        return $this->successResponse($collection,$code);
-     }
+        $collection = $this->transformData($collection, $transformer);
+        $collection = $this->cacheResponse($collection);
+        return $this->successResponse($collection, $code);
+    }
 
-     protected function showOne(Model $instance  , $code=200){
-        $transformer = $instance->transformer ;
+    protected function showOne(Model $instance, $code = 200)
+    {
+        $transformer = $instance->transformer;
 
-        $instance = $this->transformData($instance ,$transformer);
-        return $this->successResponse($instance,$code);
-     }
-
-
-
-     protected function showMessage($message  , $code=200){
-        return $this->successResponse(['data'=>$message],$code);
-     }
+        $instance = $this->transformData($instance, $transformer);
+        return $this->successResponse($instance, $code);
+    }
 
 
-     protected function sortData(Collection $collection , $transformer){
-           foreach (request()->query() as $query => $value) {
-               $attribute = $transformer::originalAttribute($query);
-           }
 
-           if(isset($attribute , $value)){
-             $collection= $collection->where($attribute ,$value);
-           }
+    protected function showMessage($message, $code = 200)
+    {
+        return $this->successResponse(['data' => $message], $code);
+    }
 
-           return $collection ;
-     }
 
-     protected function filterData(Collection $collection , $transformer){
-        if(request()->has('sort_by')){
-           $attribute = $transformer::originalAttribute(request()->sort_by);
-           $collection = $collection->sortBy->{$attribute};
+    protected function sortData(Collection $collection, $transformer)
+    {
+        foreach (request()->query() as $query => $value) {
+            $attribute = $transformer::originalAttribute($query);
         }
-        return $collection ;
-  }
 
-     protected function paginate(Collection $collection){
-          $page = LengthAwarePaginator::resolveCurrentPage();
+        if (isset($attribute, $value)) {
+            $collection = $collection->where($attribute, $value);
+        }
 
-          $perPage =  15 ;
-          $results =$collection->slice(($page - 1) * $perPage , $perPage)->values()  ;
+        return $collection;
+    }
 
-          $paginated = new LengthAwarePaginator($results , $collection->count(),$perPage ,$page ,[
-              'path' => LengthAwarePaginator::resolveCurrentPage()
-          ]);
+    protected function filterData(Collection $collection, $transformer)
+    {
+        if (request()->has('sort_by')) {
+            $attribute = $transformer::originalAttribute(request()->sort_by);
+            $collection = $collection->sortBy->{$attribute};
+        }
+        return $collection;
+    }
 
-          $paginated->appends(request()->all());
+    protected function paginate(Collection $collection)
+    {
+        $page = LengthAwarePaginator::resolveCurrentPage();
 
-          return  $paginated ;
-     }
+        $perPage = 15;
+        $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
 
+        $paginated = new LengthAwarePaginator($results, $collection->count(), $perPage, $page, [
+            'path' => LengthAwarePaginator::resolveCurrentPage()
+        ]);
 
-     protected function cacheResponse(Collection $collection){
+        $paginated->appends(request()->all());
+
+        return $paginated;
+    }
+
+    protected function cacheResponse($data)
+    {
         $url = request()->url();
 
-        $minutes = 30/60 ;
+        $minutes = 30 / 60;
 
-        return Cache::remember($url, $minutes, function () use($data) {
-           return $data ;
+        return Cache::remember($url, $minutes, function () use ($data) {
+            return $data;
         });
-     }
+    }
 
-
-     protected function transformData($data  , $transformer){
-        $transformation = fractal($data , new $transformer);
+    protected function transformData($data, $transformer)
+    {
+        $transformation = fractal($data, new $transformer);
         return $transformation->toArray();
-     }
-  }
+    }
+}
 ?>
