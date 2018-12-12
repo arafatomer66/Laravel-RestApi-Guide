@@ -4,7 +4,10 @@ use Illuminate\Support\Collection ;
 use Illuminate\Database\Eloquent\Model ;
 use Spatie\Fractal\Fractal;
 
-use Illuminate\Pagination\LengthAwarePaginator;
+
+
+use Illuminate\Pagination\LengthAwarePaginator ;
+use Illuminate\Pagination\AbstractPaginator ;
 
   trait ApiResponser {
 
@@ -66,12 +69,22 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
      protected function paginate(Collection $collection){
           $page = LengthAwarePaginator::resolveCurrentPage();
+
+          $perPage =  15 ;
+          $results =$collection->slice(($page - 1) * $perPage , $perPage)->values()  ;
+
+          $paginated = new LengthAwarePaginator($results , $collection->count(),$perPage ,$page ,[
+              'path' => LengthAwarePaginator::resolveCurrentPage()
+          ]);
+
+          $paginated->appends(request()->all());
+
+          return  $paginated ;
      }
 
 
      protected function transformData($data  , $transformer){
         $transformation = fractal($data , new $transformer);
-
         return $transformation->toArray();
      }
   }
