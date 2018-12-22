@@ -103,6 +103,7 @@ trait ApiResponser
         return Cache::remember($url, $minutes, function () use ($data) {
             return $data;
         });
+
     }
 
     protected function transformData($data, $transformer)
@@ -111,4 +112,5 @@ trait ApiResponser
         return $transformation->toArray();
     }
 }
+
 ?>

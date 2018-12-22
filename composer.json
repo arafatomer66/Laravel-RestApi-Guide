@@ -12,7 +12,8 @@
         "laravel/framework": "5.7.*",
         "laravel/homestead": "^7.18",
         "laravel/tinker": "^1.0",
-        "spatie/laravel-fractal": "^5.4"
+        "spatie/laravel-fractal": "^5.4",
+        "willdurand/hateoas": "^2.12"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
