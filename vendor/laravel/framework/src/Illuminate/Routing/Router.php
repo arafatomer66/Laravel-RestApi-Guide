@@ -1166,6 +1166,7 @@ class Router implements RegistrarContract, BindingRegistrar
         if ($options['verify'] ?? false) {
             $this->emailVerification();
         }
+
     }
 
     /**

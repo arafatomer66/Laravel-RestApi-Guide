@@ -33,9 +33,10 @@ class CategoryTransformer extends TransformerAbstract
             'lastChange' => 'updated_at' ,
             'deletedDate' => 'deleted_at' ,
 
-            'links' => [
+            'links' => [ 
                  'rel' => 'self',
                  'href' => route('categories.show' , $category->id),
+
             ],
         ];
         return isset($attribute[$index]) ? $attribute[$index] : null ;
