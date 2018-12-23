@@ -4,10 +4,18 @@ namespace App\Http\Controllers\Product;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
-use App\Product ;
+use App\Product;
 
 class ProductController extends ApiController
+
+
 {
+
+    public function __construct()
+    {
+    //    parent::__construct();
+        $this->middleware('client.credentials')->only(['index', 'show']);
+    }
     /**
      * Display a listing of the resource.
      *

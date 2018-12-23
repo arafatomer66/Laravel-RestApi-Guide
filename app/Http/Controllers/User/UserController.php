@@ -10,6 +10,12 @@ use App\Mail\UserCreated;
 
 class UserController extends ApiController
 {
+
+    public function __construct()
+   {
+    //    parent::__construct();
+    $this->middleware('client.credentials')->only(['store' ,'resend']);
+   }
     /**
      * Display a listing of the resource.
      *
