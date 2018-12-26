@@ -38,6 +38,7 @@ $this->get('email/resend', 'Auth\VerificationController@resend')->name('verifica
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/my-tokens', 'HomeController@getTokens')->name('personal-tokens');
 
 Route::get('/', function(){
      return view('welcome');
