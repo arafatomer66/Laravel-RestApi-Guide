@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Storage;
 
 class SellerProductController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function index(Seller $seller)
     {
         $product = $seller->products;

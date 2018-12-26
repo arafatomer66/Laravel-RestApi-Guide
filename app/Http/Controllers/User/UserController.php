@@ -15,6 +15,7 @@ class UserController extends ApiController
    {
     //    parent::__construct();
     $this->middleware('client.credentials')->only(['store' ,'resend']);
+    $this->middleware('auth:api')->except(['store','resend','verify']);
    }
     /**
      * Display a listing of the resource.
@@ -172,4 +173,8 @@ class UserController extends ApiController
         return $this->showMessage('Verification email has been resend');
     }
 }
+
+
+//LbH9VgJQS0x3sPNkJFWs59MXOojmIgr5ENKhsdQ8 -3
+//password zGynpU6LCujbFaETWv9WvByXBfbqI2y7o0qm8xPv -4
 

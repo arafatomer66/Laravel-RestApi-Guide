@@ -8,10 +8,14 @@ use App\Http\Controllers\ApiController;
 
 class SellerBuyerController extends ApiController
 {
-  
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(Seller $seller)
     {
-        $buyers = $seller->products()->whereHas('transactions')->with('transactions')->get()->pluck('transactions')->collapse() ; 
+        $buyers = $seller->products()->whereHas('transactions')->with('transactions')->get()->pluck('transactions')->collapse() ;
         return $this->showAll($buyers);
     }
 

@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductBuyerTransactionController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function store(Request $request , Product $product , User $buyer)
     {
         $rules = [
@@ -22,7 +26,7 @@ class ProductBuyerTransactionController extends ApiController
         if($buyer->id == $product->seller_id){
             return $this->errorResponse('Seller and buyer is same person' , 409);
         }
-        if(!$buyer->isVerified()){ 
+        if(!$buyer->isVerified()){
             return $this->errorResponse('Buyer not verified' , 409);
         }
         if(!$product->seller->isVerified()){

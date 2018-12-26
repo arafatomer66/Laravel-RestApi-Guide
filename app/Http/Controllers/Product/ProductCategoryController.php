@@ -11,18 +11,19 @@ class ProductCategoryController extends ApiController
 {
 
     public function __construct()
-   {
+    {
     //    parent::__construct();
-    $this->middleware('client.credentials')->only(['index']);
-   }
+        $this->middleware('client.credentials')->only(['index']);
+        $this->middleware('auth:api')->except(['index']);
+    }
 
     public function index(Product $product)
     {
-        $categories = $product->categories ;
+        $categories = $product->categories;
         return $this->showAll($categories);
     }
 
-    public function update(Request $request, Product $product , Category $category )
+    public function update(Request $request, Product $product, Category $category)
     {
         //many to many relation apporch
         //approches are : attach , sync , syncWithoutDetach
@@ -31,11 +32,11 @@ class ProductCategoryController extends ApiController
         $product->categories()->syncWithoutDetaching([$category->id]);
         return $this->showAll($product->categories);
     }
-    public function destroy(Product $product , Category $category )
+    public function destroy(Product $product, Category $category)
     {
         //removing relations
-        if(!$product->categories()->find($category->id)){
-            return $this->errorResponse('Invalid deletation' , 404);
+        if (!$product->categories()->find($category->id)) {
+            return $this->errorResponse('Invalid deletation', 404);
         }
         $product->categories()->detach($category->id);
         return $this->showAll($product->categories);

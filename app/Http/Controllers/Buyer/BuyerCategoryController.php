@@ -8,6 +8,11 @@ use App\Http\Controllers\ApiController;
 
 class BuyerCategoryController extends ApiController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function index(Buyer $buyer)
     {
         $sellers = $buyer->transactions()
@@ -18,7 +23,7 @@ class BuyerCategoryController extends ApiController
         ->unique('id')
         ->values();
    //collapse is use to get data of collection inside a collection
-        return $this->showAll($sellers);  
+        return $this->showAll($sellers);
     }
 }
 

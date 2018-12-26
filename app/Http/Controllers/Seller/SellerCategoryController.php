@@ -8,7 +8,11 @@ use App\Http\Controllers\ApiController;
 
 class SellerCategoryController extends ApiController
 {
-    
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
 
     public function index(Seller $seller)
     {
@@ -25,6 +29,6 @@ class SellerCategoryController extends ApiController
         return  $this->showAll($buyers);
     }
 
-    
+
 
 }
