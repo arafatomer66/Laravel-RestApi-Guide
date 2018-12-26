@@ -177,4 +177,4 @@ class UserController extends ApiController
 
 //LbH9VgJQS0x3sPNkJFWs59MXOojmIgr5ENKhsdQ8 -3
 //password zGynpU6LCujbFaETWv9WvByXBfbqI2y7o0qm8xPv -4
-
+//git config core.autocrlf true
